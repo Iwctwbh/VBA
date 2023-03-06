@@ -1,4 +1,4 @@
-Sub ExportTablesToExcel()
+Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
     Dim pptSlide As Slide
     Dim pptShape As Shape
     Dim excelApp As Object
@@ -22,7 +22,7 @@ Sub ExportTablesToExcel()
 
     '循环遍历每个幻灯片
     For Each pptSlide In ActivePresentation.Slides
-        '循环遍历每个表格
+        '循环遍历每个窗格
         For Each pptShape In pptSlide.Shapes
             If pptShape.HasTable Then
                 rowTemp = 1
