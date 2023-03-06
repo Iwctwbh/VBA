@@ -7,6 +7,7 @@ Sub ExportTablesToExcel()
     Dim row As Long
     Dim rowTemp As Long
     Dim col As Long
+    Dim colMax As Long
 
     row = 0
 
@@ -32,12 +33,17 @@ Sub ExportTablesToExcel()
                 For rowTemp = 1 To pptShape.Table.Rows.Count
                     For col = 2 To pptShape.Table.Columns.Count
                         excelWorksheet.Cells(rowTemp + row, col).Value = pptShape.Table.Cell(rowTemp, col).Shape.TextFrame.TextRange.Text
+                        '颜色
+                        excelWorksheet.Cells(rowTemp + row, col).Interior.Color = pptShape.Table.Cell(rowTemp, col).Shape.Fill.ForeColor.RGB
                     Next col
+                    colMax = IIf(col > colMax, col, colMax)
                 Next rowTemp
                 row = row + pptShape.Table.Rows.Count + 1
             End If
         Next pptShape
     Next pptSlide
+    '列宽自适应
+    For col = 1 To colMax
+        excelWorksheet.Cells(1, col).EntireColumn.AutoFit
+    Next col
 End Sub
-
-
