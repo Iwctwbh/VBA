@@ -17,8 +17,8 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
 
     '创建一个新的 Excel 工作簿
     Set excelWorkbook = excelApp.Workbooks.Add
-    '创建一个新的 Excel 工作表
-    Set excelWorksheet = excelWorkbook.Sheets.Add
+    '获取第一个 Excel 工作表
+    Set excelWorksheet = excelWorkbook.Sheets(1)
 
     '循环遍历每个幻灯片
     For Each pptSlide In ActivePresentation.Slides
