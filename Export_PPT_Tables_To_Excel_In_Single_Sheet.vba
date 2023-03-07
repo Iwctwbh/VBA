@@ -38,7 +38,8 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
                     Next col
                     colMax = IIf(col > colMax, col, colMax)
                 Next rowTemp
-                row = row + pptShape.Table.Rows.Count + 1
+                '累加每个Table的行数，末尾为空行数
+                row = row + pptShape.Table.Rows.Count + 2
             End If
         Next pptShape
     Next pptSlide
