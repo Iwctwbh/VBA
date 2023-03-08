@@ -8,6 +8,7 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
     Dim rowTemp As Long
     Dim col As Long
     Dim colMax As Long
+    Dim flag As Boolean
 
     row = 0
 
@@ -29,14 +30,26 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
 
                 excelWorksheet.Cells(rowTemp + row, 1).Value = "Slide" & CStr(pptSlide.SlideIndex)
 
+                '判断原本表格中是否有换行符，有则保留并合并相应单元格
+                flag = False
+                If InStr(1, pptShape.Table.Cell(rowTemp, 1).Shape.TextFrame.TextRange.Text, Chr(11)) > 0 Then
+                    flag = True
+                End If
+                If flag Then
+                    For colTemp = 1 To pptShape.Table.Columns.Count
+                        excelWorksheet.Range(excelWorksheet.Cells(rowTemp + row, colTemp + 1), excelWorksheet.Cells(rowTemp + row + 1, colTemp + 1)).Merge
+                    Next colTemp
+                    row = row + 1
+                End If
+
                 '将表格数据复制到 Excel 工作表中
                 For rowTemp = 1 To pptShape.Table.Rows.Count
-                    For col = 2 To pptShape.Table.Columns.Count
-                        excelWorksheet.Cells(rowTemp + row, col).Value = pptShape.Table.Cell(rowTemp, col).Shape.TextFrame.TextRange.Text
+                    For colTemp = 1 To pptShape.Table.Columns.Count
+                        excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Value = pptShape.Table.Cell(rowTemp, colTemp).Shape.TextFrame.TextRange.Text
                         '颜色
-                        excelWorksheet.Cells(rowTemp + row, col).Interior.Color = pptShape.Table.Cell(rowTemp, col).Shape.Fill.ForeColor.RGB
-                    Next col
-                    colMax = IIf(col > colMax, col, colMax)
+                        excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Interior.Color = pptShape.Table.Cell(rowTemp, colTemp).Shape.Fill.ForeColor.RGB
+                    Next colTemp
+                    colMax = IIf(colTemp > colMax, colTemp, colMax)
                 Next rowTemp
                 '累加每个Table的行数，末尾为空行数
                 row = row + pptShape.Table.Rows.Count + 2
