@@ -1,14 +1,13 @@
 'For Grape
 Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
-    Dim pptSlide As Slide
-    Dim pptShape As Shape
-    Dim excelApp As Object
-    Dim excelWorkbook As Object
-    Dim excelWorksheet As Object
+    Dim pptSlide As Slide '创建 PowerPoint 幻灯片对象
+    Dim pptShape As Shape '创建 PowerPoint 形状对象
+    Dim excelApp As Object '创建 Excel 应用程序对象
+    Dim excelWorkbook As Object '创建 Excel 工作簿对象
+    Dim excelWorksheet As Object '创建 Excel 工作表对象
     Dim row As Long
     Dim rowTemp As Long
     Dim col As Long
-    Dim colMax As Long
     Dim flag As Boolean
 
     row = 0
@@ -50,7 +49,6 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
                         '颜色
                         excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Interior.Color = pptShape.Table.Cell(rowTemp, colTemp).Shape.Fill.ForeColor.RGB
                     Next colTemp
-                    colMax = IIf(colTemp > colMax, colTemp, colMax)
                 Next rowTemp
                 '累加每个Table的行数，末尾为空行数
                 row = row + pptShape.Table.Rows.Count + 2
@@ -58,7 +56,6 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
         Next pptShape
     Next pptSlide
     '列宽自适应
-    For col = 1 To colMax
-        excelWorksheet.Cells(1, col).EntireColumn.AutoFit
-    Next col
+    excelWorksheet.Columns.AutoFit
+    excelWorksheet.Rows.AutoFit
 End Sub
