@@ -1,5 +1,5 @@
 'For Grape
-Sub Export_PPT_Charts_To_Excel_Single_Sheet()
+Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
     '声明变量
     Dim excelApp As Excel.Application '创建 Excel 应用程序对象
     Dim excelWorkbook As Excel.Workbook '创建 Excel 工作簿对象
