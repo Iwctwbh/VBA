@@ -16,8 +16,8 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
     ReDim unneededSlides(-1 To -1)
     ReDim neededSlides(-1 To -1)
 
-    flagTemp = ArrayPush(unneededSlides, 14) '第14页不需要
-    flagTemp = ArrayRangePush(unneededSlides, 1, 7) '第1到7页不需要
+    'flagTemp = ArrayPush(unneededSlides, 14) '第14页不需要
+    'flagTemp = ArrayRangePush(unneededSlides, 1, 7) '第1到7页不需要
 
     row = 0
 
