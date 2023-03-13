@@ -44,7 +44,8 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
                 Set chartData = pptShape.Chart '获取当前选定的 Chart 数据
                 chartData.chartData.Activate '激活图表数据工作簿
                 chartData.chartData.Workbook.Sheets(1).UsedRange.Copy '将图表数据复制到剪贴板中
-                excelWorksheet.Range("A" & chartRow).PasteSpecial xlPasteValues '将图表数据粘贴到 Excel 工作表中
+                excelWorksheet.Cells(chartRow, 1).MergeArea.Value = pptSlide.SlideIndex '添加页码
+                excelWorksheet.Range("B" & chartRow).PasteSpecial xlPasteValues '将图表数据粘贴到 Excel 工作表中
                 '将导出的图表计数器更新为下一个图表的行数
                 chartRow = chartRow + chartData.chartData.Workbook.Sheets(1).UsedRange.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).row + 2
                 chartData.chartData.Workbook.Close False '关闭图表数据工作簿，不保存更改
