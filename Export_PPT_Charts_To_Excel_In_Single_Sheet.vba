@@ -80,6 +80,7 @@ ErrorHandler:
     If errorCount < 100 Then
         Resume
     Else
+        excelApp.Visible = True '显示 Excel 应用程序界面
         Exit Sub
     End If
 
