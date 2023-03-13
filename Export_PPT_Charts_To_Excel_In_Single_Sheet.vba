@@ -18,12 +18,12 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
     ReDim neededSlides(-1 To -1)
 
     'flagTemp = ArrayPush(unneededSlides, 14) '第14页不需要
-    'flagTemp = ArrayRangePush(unneededSlides, 1, 7) '第1到7页不需要
+    'flagTemp = ArrayRangePush(unneededSlides, 1, 30) '第1到7页不需要
 
     On Error GoTo ErrorHandler
 
     Set excelApp = CreateObject("Excel.Application") '创建新的 Excel 实例
-    excelApp.Visible = True '将 Excel 应用程序设置为可见，以便查看导出的结果
+    'excelApp.Visible = True '将 Excel 应用程序设置为可见，以便查看导出的结果
     Set excelWorkbook = excelApp.Workbooks.Add '打开 Excel 工作簿
     Set excelWorksheet = excelWorkbook.Sheets(1) '创建新的工作表
 
@@ -68,6 +68,8 @@ NextIteration:
     Next pptSlide
     excelWorksheet.Columns.AutoFit
     excelWorksheet.Rows.AutoFit
+
+    excelApp.Visible = True '显示 Excel 应用程序界面
 
 ErrorHandler:
     errorCount = errorCount + 1
