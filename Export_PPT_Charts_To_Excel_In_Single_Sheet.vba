@@ -46,7 +46,7 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
                 excelWorksheet.Cells(chartRow, 1).MergeArea.Value = pptSlide.SlideIndex '添加页码
 
                 '方法一
-                chartData.chartData.ActivateChartDataWindow '激活图表数据工作簿
+                'chartData.chartData.Activate '激活图表数据工作簿，之后应关闭
                 chartData.chartData.Workbook.Sheets(1).UsedRange.Copy '将图表数据复制到剪贴板中
                 excelWorksheet.Range("B" & chartRow).PasteSpecial xlPasteValues '将图表数据粘贴到 Excel 工作表中
 
