@@ -18,7 +18,7 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
     ReDim neededSlides(-1 To -1)
 
     'flagTemp = ArrayPush(unneededSlides, 14) '第14页不需要
-    'flagTemp = ArrayRangePush(unneededSlides, 1, 30) '第1到7页不需要
+    'flagTemp = ArrayRangePush(unneededSlides, 1, 7) '第1到7页不需要
 
     On Error GoTo ErrorHandler
 
