@@ -66,7 +66,7 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
                     For colTemp = 1 To pptShape.Table.Columns.Count
                         excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Value = pptShape.Table.Cell(rowTemp, colTemp).Shape.TextFrame.TextRange.Text
                         '颜色
-                        excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Interior.Color = pptShape.Table.Cell(rowTemp, colTemp).Shape.Fill.ForeColor.RGB
+                        'excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Interior.Color = pptShape.Table.Cell(rowTemp, colTemp).Shape.Fill.ForeColor.RGB
                     Next colTemp
                 Next rowTemp
                 '累加每个Table的行数，末尾为空行数
