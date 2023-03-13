@@ -9,6 +9,15 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
     Dim rowTemp As Long
     Dim col As Long
     Dim flag As Boolean
+    Dim unneededSlides() As Integer '不需要的幻灯片
+    Dim neededSlides() As Integer '需要的幻灯片，如果有值，则不判断{unneededSlides}
+    Dim flagTemp As Boolean
+
+    ReDim unneededSlides(-1 To -1)
+    ReDim neededSlides(-1 To -1)
+
+    flagTemp = ArrayPush(unneededSlides, 14) '第14页不需要
+    flagTemp = ArrayRangePush(unneededSlides, 1, 7) '第1到7页不需要
 
     row = 0
 
@@ -23,6 +32,16 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
 
     '循环遍历每个幻灯片
     For Each pptSlide In ActivePresentation.Slides
+        If UBound(neededSlides) = -1 Then
+            If IsValueInArray(pptSlide.SlideIndex, unneededSlides) Then '判断unneededSlides内是否含有当前页
+                GoTo NextIteration
+            End If
+        Else
+            If IsValueInArray(pptSlide.SlideIndex, neededSlides) Then '判断unneededSlides内是否含有当前页
+                GoTo NextIteration
+            End If
+        End If
+
         '循环遍历每个窗格
         For Each pptShape In pptSlide.Shapes
             If pptShape.HasTable Then
@@ -54,8 +73,43 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
                 row = row + pptShape.Table.Rows.Count + 2
             End If
         Next pptShape
+NextIteration:
     Next pptSlide
     '列宽自适应
     excelWorksheet.Columns.AutoFit
     excelWorksheet.Rows.AutoFit
 End Sub
+
+Function IsValueInArray(ByVal searchValue As Variant, ByVal arr As Variant) As Boolean
+    Dim i As Long
+    For i = LBound(arr) To UBound(arr)
+        If arr(i) = searchValue Then
+            IsValueInArray = True
+            Exit Function
+        End If
+    Next i
+    IsValueInArray = False
+End Function
+
+Function ArrayPush(ByRef arr As Variant, ByVal val As Long) As Boolean
+    Dim arrLength As Long
+
+    arrLength = UBound(arr)
+
+    ReDim Preserve arr(arrLength + 1)
+    arr(arrLength + 1) = val
+End Function
+
+Function ArrayRangePush(ByRef arr As Variant, ByVal val0 As Long, ByVal val1 As Long) As Boolean
+    Dim arrLength As Long
+    Dim rangeLength As Long
+
+    arrLength = UBound(arr)
+    rangeLength = val1 - val0
+
+    ReDim Preserve arr(arrLength + 1 + rangeLength)
+
+    For i = 0 To rangeLength
+        arr(arrLength + i + 1) = val0 + i
+    Next i
+End Function
