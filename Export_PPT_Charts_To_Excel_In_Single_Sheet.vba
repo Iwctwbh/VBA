@@ -69,7 +69,7 @@ NextIteration:
     excelWorksheet.Columns.AutoFit
     excelWorksheet.Rows.AutoFit
 
-    excelApp.Visible = True '显示 Excel 应用程序界面
+    excelApp.Visible = True '将 Excel 应用程序设置为可见，以便查看导出的结果
 
 ErrorHandler:
     errorCount = errorCount + 1

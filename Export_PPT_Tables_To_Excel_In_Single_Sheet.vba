@@ -23,7 +23,7 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
 
     '创建一个新的 Excel 应用程序
     Set excelApp = CreateObject("Excel.Application")
-    excelApp.Visible = True '可以看到导出的结果
+    'excelApp.Visible = True '将 Excel 应用程序设置为可见，以便查看导出的结果
 
     '创建一个新的 Excel 工作簿
     Set excelWorkbook = excelApp.Workbooks.Add
@@ -75,9 +75,13 @@ Sub Export_PPT_Tables_To_Excel_In_Single_Sheet()
         Next pptShape
 NextIteration:
     Next pptSlide
+
     '列宽自适应
     excelWorksheet.Columns.AutoFit
     excelWorksheet.Rows.AutoFit
+
+    excelApp.Visible = True '将 Excel 应用程序设置为可见，以便查看导出的结果
+
 End Sub
 
 Function IsValueInArray(ByVal searchValue As Variant, ByVal arr As Variant) As Boolean
