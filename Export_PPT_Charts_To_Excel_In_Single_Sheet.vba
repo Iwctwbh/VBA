@@ -42,18 +42,30 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
         For Each pptShape In pptSlide.Shapes '遍历当前幻灯片中的所有形状
             If pptShape.HasChart Then '如果当前形状包含图表
                 Set chartData = pptShape.Chart '获取当前选定的 Chart 数据
-                chartData.chartData.Activate '激活图表数据工作簿
-                chartData.chartData.Workbook.Sheets(1).UsedRange.Copy '将图表数据复制到剪贴板中
+
                 excelWorksheet.Cells(chartRow, 1).MergeArea.Value = pptSlide.SlideIndex '添加页码
+
+                '方法一
+                chartData.chartData.ActivateChartDataWindow '激活图表数据工作簿
+                chartData.chartData.Workbook.Sheets(1).UsedRange.Copy '将图表数据复制到剪贴板中
                 excelWorksheet.Range("B" & chartRow).PasteSpecial xlPasteValues '将图表数据粘贴到 Excel 工作表中
+
+                '方法二
+                'For rowTemp = 0 To chartData.chartData.Workbook.Sheets(1).UsedRange.Rows.Count
+                '    For colTemp = 1 To chartData.chartData.Workbook.Sheets(1).UsedRange.Columns.Count
+                '        excelWorksheet.Cells(rowTemp + chartRow, colTemp + 1).MergeArea.Value = chartData.chartData.Workbook.Sheets(1).Cells(rowTemp + 1, colTemp).Value
+                '        '颜色
+                '        'excelWorksheet.Cells(rowTemp + row, colTemp + 1).MergeArea.Interior.Color = pptShape.Table.Cell(rowTemp, colTemp).Shape.Fill.ForeColor.RGB
+                '    Next colTemp
+                'Next rowTemp
+
                 '将导出的图表计数器更新为下一个图表的行数
-                chartRow = chartRow + chartData.chartData.Workbook.Sheets(1).UsedRange.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).row + 2
+                chartRow = chartRow + chartData.chartData.Workbook.Sheets(1).UsedRange.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).Row + 2
                 chartData.chartData.Workbook.Close False '关闭图表数据工作簿，不保存更改
             End If
         Next pptShape
 NextIteration:
     Next pptSlide
-
     excelWorksheet.Columns.AutoFit
     excelWorksheet.Rows.AutoFit
 
@@ -68,6 +80,7 @@ ErrorHandler:
     Else
         Exit Sub
     End If
+
 End Sub
 
 Function IsValueInArray(ByVal searchValue As Variant, ByVal arr As Variant) As Boolean
