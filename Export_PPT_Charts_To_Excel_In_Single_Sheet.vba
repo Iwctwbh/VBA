@@ -60,7 +60,8 @@ Sub Export_PPT_Charts_To_Excel_In_Single_Sheet()
                 'Next rowTemp
 
                 '将导出的图表计数器更新为下一个图表的行数
-                chartRow = chartRow + 2 + chartData.chartData.Workbook.Sheets(1).UsedRange.Rows.Count '.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).Row + 2
+                'chartRow = chartRow + 2 + chartData.chartData.Workbook.Sheets(1).UsedRange.Rows.Count '.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).Row + 2
+                chartRow = excelWorksheet.UsedRange.Find("*", LookIn:=xlValues, searchorder:=xlByRows, searchdirection:=xlPrevious).Row + 3
                 chartData.chartData.Workbook.Close False '关闭图表数据工作簿，不保存更改
             End If
         Next pptShape
@@ -81,6 +82,7 @@ ErrorHandler:
         Resume
     Else
         excelApp.Visible = True '显示 Excel 应用程序界面
+        chartData.chartData.Workbook.Close False '关闭图表数据工作簿，不保存更改
         Exit Sub
     End If
 
